@@ -37,6 +37,19 @@
 
 						<button type="submit" class="btn btn-default">Submit</button>
 					</form>
+					<?php
+						include ("bd.php");
+						$res = mysql_query("SELECT * FROM `timetable` WHERE `referenceID` = '1' AND `timetableID` = '4'");
+						if ($res) $arg = mysql_fetch_array($res);
+						while(!empty($arg['courseID'])) {
+							echo $arg['courseID'] ;
+						?>
+							<a href = "<?php echo "delete_course.php?courseid=".$arg['courseID']."&c=".$arg['classID']; ?>" id = "del"> <img src = "images/delete.png" id = "delimg"> </a>
+						<?php
+							echo "<br>"; 
+							$arg = mysql_fetch_array($res);
+							}
+						?>  
 				</div>
 
 				<!-- The content of tab 2 (view timetable)-->
@@ -95,16 +108,4 @@
 	</body>
 </html>
 
-<?php
-	include ("bd.php");
-	$res = mysql_query("SELECT * FROM `timetable` WHERE `referenceID` = '1' AND `timetableID` = '4'");
-	if ($res) $arg = mysql_fetch_array($res);
-	while(!empty($arg['courseID'])) {
-		echo $arg['courseID'] ;
-		?>
-		<a href = "<?php echo "delete_course.php?courseid=".$arg['courseID']."?classid=".$arg['classID']; ?>" id = "del"> <img src = "images/delete.png" id = "delimg"> </a>
-		<?php
-		echo "<br>"; 
-		$arg = mysql_fetch_array($res);
-	}
-?>  
+
