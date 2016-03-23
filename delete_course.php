@@ -9,7 +9,7 @@
 
 
 
- res = mysql_query ("DELETE FROM `timetable` WHERE `classID` = '$classID' AND `referenceID` = '$referenceID' 
+ $res = mysql_query ("DELETE FROM `timetable` WHERE `classID` = '$classID' AND `referenceID` = '$referenceID' 
 		                                        AND `timetableID` = '$timetableID' AND `courseID` = '$courseID'");
  {header("Location: Alba4.php"); die();}
 
