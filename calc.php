@@ -32,13 +32,12 @@
       global $len, $tables, $ID, $unique_courses, $left, $sz;
      // print ($index);
    		if ($index > $len) {
+      
    			for ($i = 1; $i <= $len; ++$i) {
    				for ($j = $i + 1; $j <= $len; ++$j) {
     				if (clash ($ID[$i], $ID[$j]) == 1) return;
    				}
    			}
-        print_r ($ID);
-        print "<br>";
    			/*for ($i = 1; $i <= $len; ++$i) {
    				if (is_collapse ($ID[$i]) == 1) return;
    			}*/
@@ -46,7 +45,7 @@
    			array_push($tables, $ID); // all the available timetable ids will be stored in tables
         return ;
    		}
-   		$course = $unique_courses[$index];
+   		$course = $unique_courses[$index - 1];
     //  print $left[$course]."<br>". $sz[$course];
    		for ($i = $left[$course]; $i <= $left[$course] + $sz[$course] - 1; ++$i) {
    			$ID[$index] = $i;// assigning indexes
@@ -86,7 +85,7 @@
       $arg = mysql_fetch_array($res);
     }
   }
-
+// sorting 
   for ($i = 1; $i <= $n; ++$i) {
         for ($j = $i + 1; $j <= $n; ++$j) {
             if ($CourseID[$j] < $CourseID[$i]) {
@@ -100,10 +99,13 @@
     }
     
     $len = $n; // length of all uniques courses
+    sort($courses);
     $unique_courses = array_unique($courses);
+    $unique_courses = array_values($unique_courses);
     $len = count ($unique_courses);
     $sz = array();
     $left = array();
+   // print_r ($unique_courses);
     
  	for ($i = 1; $i <= $n; ++$i) {
    if (empty($left[$CourseID[$i]])) { // finding left index of specific course ID
