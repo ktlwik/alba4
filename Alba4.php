@@ -30,10 +30,6 @@
 							<label for="course">Course :</label>
 							<input class="form-control" id="courseID" type = "text"  name = "courseid" placeholder = "Enter course :"></input>
 						</div>
-						<div class="form-group">
-							<label for="course">Index :</label>
-							<input class="form-control" id="indexID" type = "text" name = "classid" placeholder = "Enter index :"></input>
-						</div>
 
 						<button type="submit" class="btn btn-default">Submit</button>
 					</form>
@@ -41,12 +37,17 @@
 						include ("bd.php");
 						$res = mysql_query("SELECT * FROM `timetable` WHERE `referenceID` = '1' AND `timetableID` = '4'");
 						if ($res) $arg = mysql_fetch_array($res);
+						$prev = "";
 						while(!empty($arg['courseID'])) {
+							if ($arg['courseID'] == $prev) {
+							$arg = mysql_fetch_array($res);continue;
+							}
 							echo $arg['courseID'] ;
 						?>
-							<a href = "<?php echo "delete_course.php?courseid=".$arg['courseID']."&c=".$arg['classID']; ?>" id = "del"> <img src = "images/delete.png" id = "delimg"> </a>
+			            <a href = "<?php echo "delete_course.php?courseid=".$arg['courseID']; ?>" id = "del"> <img src = "images/delete.png" id = "delimg"> </a>
 						<?php
 							echo "<br>"; 
+							$prev = $arg['courseID'];
 							$arg = mysql_fetch_array($res);
 							}
 						?>  
