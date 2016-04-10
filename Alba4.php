@@ -61,26 +61,39 @@
 						<span id="timetableno">1</span> up to <span id="timetabletotal">3</span>
 						<button type="button" class="btn btn-default" id="nextTimetableButton" onClick="loadNextTimetable()">Next</button>
 					</center>
-					<table class="table table-striped table-bordered ">
-						<tr>
-							<td>Time/Day</td>
-							<td>Monday</td>
-							<td>Tuesday</td>
-							<td>Wednesday</td>
-							<td>Thursday</td>
-							<td>Friday</td>
-							<td>Saturday</td>
-						</tr>
-						<tr>
-							<td>08:30 - 09:30</td>
-							<td>CZ3006 - LEC</td>
-						</tr>
-						<tr>
-							<td>09:30 - 10:30</td>
-							<td>CZ1007 - TUT</td>
+					<?php 
+						$times = array("0830", "0900", "0930", "1000", "1030", "1100", "1130", "1200", "1230", "1300", "1330", "1400", "1430", "1500", "1530", "1600", "1630", "1700", "1730", "1800", "1830", "1900", "1930", "2000", "2030", "2100", "2130", "2200", "2230", "2300", "2330");
+						$days = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
 
-						</tr>
-					</table>
+						//Repeat for n timetables							
+						for ($i=0; $i < 2; $i++) { ?>
+							<table class="table table-striped table-bordered">
+								<tr>
+									<td>Time/Day</td>
+									<td>Monday</td>
+									<td>Tuesday</td>
+									<td>Wednesday</td>
+									<td>Thursday</td>
+									<td>Friday</td>
+									<td>Saturday</td>
+								</tr>
+
+					<?php for ($j=0; $j < sizeof($times)-1; $j++) { //Repeat for 30 rows ?>
+							<tr>
+								<td><?php echo $times[$j]; ?> - <?php echo $times[$j+1]; ?></td>
+					<?php for ($k=0; $k < 6; $k++) { //Repeat for 6 columns ?>
+								<td><?php echo "Timetable:".$i."Start:".$times[$j]."Day:".$days[$k]; ?></td>
+					<?php		
+						}
+					?>
+							</tr>
+					<?php		
+						}
+					?>
+							</table>
+					<?php		
+						}
+					?>
 				</div>
 
 				<!-- The content of tab 3 (load timetable)-->
