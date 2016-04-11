@@ -37,4 +37,15 @@ input[type="submit"] {
     text-align: center;
 }
 
+#loadPlan1, #loadPlan2, #loadPlan3 {
+    width: 100%;
+    min-height: 300px;
+    background: transparent url('http://localhost/alba4/cz2006/images/disk.png') no-repeat;
+    background-size: 100% 100%; 
+
+}
+
+table {
+    width: 100%;
+}
          

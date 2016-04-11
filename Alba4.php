@@ -67,7 +67,7 @@
 
 						//Repeat for n timetables							
 						for ($i=0; $i < 2; $i++) { ?>
-							<table class="table table-striped table-bordered">
+							<table class="table table-striped">
 								<tr>
 									<td>Time/Day</td>
 									<td>Monday</td>
@@ -79,14 +79,14 @@
 								</tr>
 
 					<?php for ($j=0; $j < sizeof($times)-1; $j++) { //Repeat for 30 rows ?>
-							<tr>
-								<td><?php echo $times[$j]; ?> - <?php echo $times[$j+1]; ?></td>
+								<tr>
+									<td><?php echo $times[$j]; ?> - <?php echo $times[$j+1]; ?></td>
 					<?php for ($k=0; $k < 6; $k++) { //Repeat for 6 columns ?>
-								<td><?php echo "Timetable:".$i."Start:".$times[$j]."Day:".$days[$k]; ?></td>
+									<td><?php echo "Timetable:".$i."Start:".$times[$j]."Day:".$days[$k]; ?></td>
 					<?php		
 						}
 					?>
-							</tr>
+								</tr>
 					<?php		
 						}
 					?>
@@ -101,13 +101,13 @@
 					<table class="table">
 						<tr>
 							<td>
-								<button type="button" class="btn btn-default" id="loadPlan1" onClick="loadPlan(1)">Plan 1</button>
+								<button type="button" class="btn btn-default" id="loadPlan1" onClick="loadPlan(1)"><strong>Plan 1</strong></button>
 							</td>
 							<td>
-								<button type="button" class="btn btn-default" id="loadPlan2" onClick="loadPlan(2)">Plan 2</button>
+								<button type="button" class="btn btn-default" id="loadPlan2" onClick="loadPlan(2)"><strong>Plan 2</strong></button>
 							</td>
 							<td>
-								<button type="button" class="btn btn-default" id="loadPlan2" onClick="loadPlan(3)">Plan 3</button>
+								<button type="button" class="btn btn-default" id="loadPlan2" onClick="loadPlan(3)"><strong>Plan 3</strong></button>
 							</td>
 						</tr>
 					</table>
