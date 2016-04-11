@@ -31,7 +31,7 @@
 							<input class="form-control" id="courseID" type = "text"  name = "courseid" placeholder = "Enter course :"></input>
 						</div>
 
-						<button type="submit" class="btn btn-default">Submit</button>
+						<button type="submit" class="btn btn-default" >Submit</button>
 					</form>
 					<?php
 						include ("bd.php");
@@ -62,11 +62,22 @@
 						<button type="button" class="btn btn-default" id="nextTimetableButton" onClick="loadNextTimetable()">Next</button>
 					</center>
 					<?php 
+						include("calc.php");
 						$times = array("0830", "0900", "0930", "1000", "1030", "1100", "1130", "1200", "1230", "1300", "1330", "1400", "1430", "1500", "1530", "1600", "1630", "1700", "1730", "1800", "1830", "1900", "1930", "2000", "2030", "2100", "2130", "2200", "2230", "2300", "2330");
 						$days = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
-
-						//Repeat for n timetables							
+						//Repeat for n timetables	
+					//	print_r($tables);						
 						for ($i=0; $i < 2; $i++) { ?>
+						<?php $thistable = $tables[$i];
+										for ($j = 1; $j <= count ($thistable); ++$j) {
+											$index = $thistable[$j];
+											//print_r($startTime[$index]);
+
+											for ($k = 0; $k < count($startTime[$index]); ++$k) {
+												echo "startTime: ".$startTime[$index][$k]. "endTime: ". $endTime[$index][$k]. "Day: ". $day[$index][$k]. "<br>";
+											}
+										}
+								 ?>
 							<table class="table table-striped table-bordered">
 								<tr>
 									<td>Time/Day</td>
@@ -82,7 +93,7 @@
 							<tr>
 								<td><?php echo $times[$j]; ?> - <?php echo $times[$j+1]; ?></td>
 					<?php for ($k=0; $k < 6; $k++) { //Repeat for 6 columns ?>
-								<td><?php echo "Timetable:".$i."Start:".$times[$j]."Day:".$days[$k]; ?></td>
+								<td></td>
 					<?php		
 						}
 					?>
@@ -467,24 +478,20 @@
         			$(this).tab('show');
     			});
 			});
-
 			
 			function selectAll(chkbox) {
 				for (i = 0; i < chkbox.length; i++) {
 					chkbox[i].checked = true;
 				}
 			}
-
 			function deselectAll(chkbox) {
 				for (i = 0; i < chkbox.length; i++) {
 					chkbox[i].checked = false;
 				}
 			}
-
 			function loadPlan(planNo) {
 				alert("Plan " + planNo + " loaded successfully!");
 			}
-
 			function loadPreviousTimetable() {
 				var current = document.getElementById("timetableno").innerHTML;
 				var previous = Number(current) - 1;
@@ -495,7 +502,6 @@
 					document.getElementById("timetableno").innerHTML = previous;
 				}
 			}
-
 			function loadNextTimetable() {
 				var current = document.getElementById("timetableno").innerHTML;
 				var next = Number(current) + 1;
@@ -505,12 +511,8 @@
 					document.getElementById("timetableno").innerHTML = next;
 				}
 			}
-
-
 		</script>
 
 
 	</body>
 </html>
-
-
