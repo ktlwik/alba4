@@ -171,7 +171,7 @@
 									<p id="settings-day"><?php echo $days[$y];?></p>
 									<?php for ($z = 0; $z < sizeof($times)-1; $z++) { ?>
 										<div class="item">
-										<label><input type="checkbox" name="<?php echo $days[$y]."checklist[]" ?>" value="<?php echo $days[$y]."-".$times[$z]; ?>" checked><?php echo $times[$z]; ?> - <?php echo $times[$z+1]; ?></input></label>
+										<label><input type="checkbox" name="<?php echo $days[$y]."checklist[]" ?>" value="<?php echo strtoupper(substr($days[$y], 0, 3)).$times[$z]; ?>" checked><?php echo $times[$z]; ?> - <?php echo $times[$z+1]; ?></input></label>
 										</div>
 									<?php	} ?>
 										<div>
