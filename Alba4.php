@@ -40,20 +40,20 @@
 						$prev = "";
 						while(!empty($arg['courseID'])) {
 							if ($arg['courseID'] == $prev) {
-							$arg = mysql_fetch_array($res);continue;
+							$arg = mysql_fetch_array($res); echo $arg['classID']. " "; continue;
 							}
-							echo $arg['courseID'] ;
+							echo "<br>". $arg['courseID'];
 						?>
 			            <a href = "<?php echo "delete_course.php?courseid=".$arg['courseID']; ?>" id = "del"> <img src = "images/delete.png" id = "delimg"> </a>
 						<?php
-							echo "<br>"; 
+							echo "<br>". $arg['classID']. " ";
 							$prev = $arg['courseID'];
+
 							$arg = mysql_fetch_array($res);
 							}
 						?>  
 				</div>
-
-				<!-- The content of tab 2 (view timetable)-->
+			<!-- The content of tab 2 (view timetable)-->
 				<div class="tab-pane fade" id="viewtimetabletab">
 					<center>
 						<button type="button" class="btn btn-default" id="previousTimetableButton" 
@@ -165,7 +165,6 @@
 										$timepreference[$w][$x] = true;					//Initially all timeslots are selected
 									}
 								}
-
 								for ($y = 0; $y< sizeof($days); $y++) { ?>
 								<td>
 									<p id="settings-day"><?php echo $days[$y];?></p>
@@ -242,7 +241,6 @@
 					document.getElementById("table-"+next).style = "display: visible;";
 				}
 			}
-
 			function changeSetting(chkbox) {
 				var id = chkbox.id;
 				$.ajax({
