@@ -40,18 +40,18 @@
 						if ($res) $arg = mysql_fetch_array($res);
 						$prev = "";
 						while(!empty($arg['courseID'])) {
-							if ($arg['courseID'] == $prev) {
-							$arg = mysql_fetch_array($res); ?>
+							if ($arg['courseID'] == $prev) { ?>
 							<div class="item">
-								<label><input type="checkbox" name="courseindex[]" value="<?php echo $arg['classID']; ?>"><?php echo $arg['classID']. " "; ?></input></label>
+								<label><input type="checkbox" name="courseindex[]" value="<?php echo $arg['courseID']."-".$arg['classID']; ?>"><?php echo $arg['classID']. " "; ?></input></label>
 							</div>
-							<?php continue;
+							<?php
+							$arg = mysql_fetch_array($res); continue;
 							}
 							echo "<br>".$arg['courseID'];
 						?>
 			            <a href = "<?php echo "delete_course.php?courseid=".$arg['courseID']; ?>" id = "del"> <img src = "images/delete.png" id = "delimg"> </a>
 						<div class="item">
-								<label><input type="checkbox" name="courseindex[]" value="<?php echo $arg['classID']; ?>" ><?php echo $arg['classID']. " "; ?></input></label>
+								<label><input type="checkbox" name="courseindex[]" value="<?php echo $arg['courseID']."-".$arg['classID']; ?>" ><?php echo $arg['classID']. " "; ?></input></label>
 						</div>
 						<?php
 							$prev = $arg['courseID'];

@@ -25,7 +25,7 @@ if(!empty($_POST['courseid'])) {
     $len = count ($class);
  	for ($i = 0; $i < $len; ++$i) {
  		$classID = $class[$i];
- 		$r = mysql_query("INSERT INTO `timetable` (`classID`, `courseID`, `referenceID`, `timetableID`) VALUES ('$classID', '$courseID', '$referenceID', '$timetableID')");
+ 		$r = mysql_query("INSERT INTO `timetable` (`classID`, `courseID`, `referenceID`, `timetableID`, `flag`) VALUES ('$classID', '$courseID', '$referenceID', '$timetableID', '1')");
  	} 
 	{header("Location: Alba4.php"); die();}
 }

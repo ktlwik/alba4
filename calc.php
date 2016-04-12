@@ -65,7 +65,7 @@
    $referenceID = 1; // < --- need to change
    $timetableID = 4; // constant for calculation 
    $res = mysql_query("SELECT * FROM `timetable` WHERE `referenceID` = '$referenceID' 
-                                            AND `timetableID` = '$timetableID'");
+                                            AND `timetableID` = '$timetableID' AND `flag` = '1'");
   if ($res) $arg = mysql_fetch_array($res);
   $n = 0;
   while(!empty($arg['courseID'])) {
