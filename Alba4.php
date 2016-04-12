@@ -154,7 +154,7 @@
 				<!-- The content of tab 4 (settings)-->
 				<div class="tab-pane fade" id="settingstab">
 					<p id="settings-header-text">Please untick the slot that you want it to be free time!</p>
-					<form name="settingsform" action="update-settings.php">
+					<form name="settingsform" action="updateSettings.php" method="POST">
 						<table class="table">
 							<tr>
 							<?php 	
@@ -170,7 +170,7 @@
 									<p id="settings-day"><?php echo $days[$y];?></p>
 									<?php for ($z = 0; $z < sizeof($times)-1; $z++) { ?>
 										<div class="item">
-										<label><input type="checkbox" name="<?php echo $days[$y]."checklist" ?>" id="<?php echo $y."-".$z; ?>" checked><?php echo $times[$z]; ?> - <?php echo $times[$z+1]; ?></input></label>
+										<label><input type="checkbox" name="<?php echo $days[$y]."checklist[]" ?>" id="<?php echo $days[$y]."-".$times[$z]; ?>" checked><?php echo $times[$z]; ?> - <?php echo $times[$z+1]; ?></input></label>
 										</div>
 									<?php	} ?>
 										<div>
@@ -185,6 +185,7 @@
 							</tr>
 
 						</table>
+						<button type="submit" class="btn btn-default" >Submit</button>
 					</form>
 				</div>			
 			</div>
