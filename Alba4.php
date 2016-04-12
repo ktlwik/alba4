@@ -175,10 +175,11 @@
 										</div>
 									<?php	} ?>
 										<div>
-											<button type="button" class="btn btn-default" onClick="<?php echo "selectAll(document.settingsform.".$days[$y]."checklist[])" ?>">Select All</button>
+											<button type="button" class="btn btn-default" onClick="<?php echo "selectAll(document.settingsform['".$days[$y]."checklist[]'])"?>">Select All</button>
+
 										</div>
 										<div>
-											<button type="button" class="btn btn-default" onClick="<?php echo "deselectAll(document.settingsform.".$days[$y]."checklist[])" ?>">Deselect All</button>
+											<button type="button" class="btn btn-default" onClick="<?php echo "deselectAll(document.settingsform['".$days[$y]."checklist[]'])"?>">Deselect All</button>
 										</div>
 								 </td> 
 							<?php } ?>
@@ -208,6 +209,7 @@
 				for (i = 0; i < chkbox.length; i++) {
 					chkbox[i].checked = true;
 				}
+				
 			}
 			function deselectAll(chkbox) {
 				for (i = 0; i < chkbox.length; i++) {
