@@ -43,7 +43,7 @@
 							if ($arg['courseID'] == $prev) {
 							$arg = mysql_fetch_array($res); ?>
 							<div class="item">
-								<label><input type="checkbox" name="courseindex" value="<?php echo $arg['classID']; ?>"><?php echo $arg['classID']. " "; ?></input></label>
+								<label><input type="checkbox" name="courseindex[]" value="<?php echo $arg['classID']; ?>"><?php echo $arg['classID']. " "; ?></input></label>
 							</div>
 							<?php continue;
 							}
@@ -51,7 +51,7 @@
 						?>
 			            <a href = "<?php echo "delete_course.php?courseid=".$arg['courseID']; ?>" id = "del"> <img src = "images/delete.png" id = "delimg"> </a>
 						<div class="item">
-								<label><input type="checkbox" name="courseindex" value="<?php echo $arg['classID']; ?>" ><?php echo $arg['classID']. " "; ?></input></label>
+								<label><input type="checkbox" name="courseindex[]" value="<?php echo $arg['classID']; ?>" ><?php echo $arg['classID']. " "; ?></input></label>
 						</div>
 						<?php
 							$prev = $arg['courseID'];
