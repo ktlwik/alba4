@@ -31,7 +31,7 @@
 							<input class="form-control" id="courseID" type = "text"  name = "courseid" placeholder = "Enter course :"></input>
 						</div>
 
-						<button type="submit" class="btn btn-default">Submit</button>
+						<button type="submit" class="btn btn-default" >Submit</button>
 					</form>
 					<?php
 						include ("bd.php");
@@ -62,12 +62,13 @@
 						<button type="button" class="btn btn-default" id="nextTimetableButton" onClick="loadNextTimetable()">Next</button>
 					</center>
 					<?php 
+						include("calc.php");
 						$times = array("0830", "0900", "0930", "1000", "1030", "1100", "1130", "1200", "1230", "1300", "1330", "1400", "1430", "1500", "1530", "1600", "1630", "1700", "1730", "1800", "1830", "1900", "1930", "2000", "2030", "2100", "2130", "2200", "2230", "2300", "2330");
 						$days = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
-
-						//Repeat for n timetables							
-						for ($i=0; $i < 2; $i++) { ?>
-							<table class="table table-striped">
+						//Repeat for n timetables						
+						for ($i=0; $i < sizeof($tables); $i++) { ?>
+						<div id="<?php echo "table-".($i+1);?>" style="display:visible">
+							<table class="table table-striped table-bordered" >
 								<tr>
 									<td>Time/Day</td>
 									<td>Monday</td>
@@ -78,22 +79,59 @@
 									<td>Saturday</td>
 								</tr>
 
-					<?php for ($j=0; $j < sizeof($times)-1; $j++) { //Repeat for 30 rows ?>
+						<?php for ($j=0; $j < sizeof($times)-1; $j++) { //Repeat for 30 rows 
+								?>
 								<tr>
 									<td><?php echo $times[$j]; ?> - <?php echo $times[$j+1]; ?></td>
-					<?php for ($k=0; $k < 6; $k++) { //Repeat for 6 columns ?>
-									<td><?php echo "Timetable:".$i."Start:".$times[$j]."Day:".$days[$k]; ?></td>
-					<?php		
-						}
-					?>
+									<?php for ($k=0; $k < 6; $k++) { //Repeat for 6 days 
+										$output_text = "";
+										$num_row = 1;
+										for ($l = 1; $l <= count ($tables[$i]); ++$l) { //Repeat for all class in that timetable (timetable index start from 1) 
+											$index = $tables[$i][$l];					//Find the course in that slot
+											for ($m = 0; $m < count($startTime[$index]); ++$m) {
+												$class_above=false;								//To define number of row to be spanned
+												$class_start_time = $startTime[$index][$m];
+												$class_end_time = $endTime[$index][$m];
+												for ($p=0; $p < sizeof($times)-1; $p++) {
+													if ($class_start_time == $times[$p]) {
+														$class_start_slot = $p;
+													}
+													if ($class_end_time == $times[$p]) {
+														$class_end_slot = $p;
+														break;
+													}
+												}
+												if (($class_start_slot < $j) && ($class_end_slot >= $j+1) && (strtolower($day[$index][$m]) == strtolower(substr($days[$k], 0, 3))))  {
+													$class_above = true;		//Whether there is a class in the slot above and spanned to this cell
+													break;						//If so, the declaration of <td></td> will not be executed
+												}
+												if (($startTime[$index][$m] == $times[$j]) && (strtolower($day[$index][$m]) == strtolower(substr($days[$k], 0, 3)))) {
+													$output_text = $CourseID[$index]." ".$ctype[$index][$m]." ".$cgroup[$index][$m]." ".$venue[$index][$m]." ".$remarks[$index][$m];
+													for ($n = $j+1; $n < sizeof($times)-1; $n++) {		//To define number of rowspan
+														if ($times[$n] != $endTime[$index][$m]) {
+															$num_row++;
+														} else break;											
+													}
+													break;
+												} 
+											}
+										}
+									if (!$class_above) {	
+									?>
+									<td rowspan="<?php echo $num_row; ?>"><?php echo $output_text; ?></td>
+								
+								<?php	}	
+									}
+								?>
 								</tr>
-					<?php		
-						}
-					?>
+							<?php		
+								}
+							?>
 							</table>
-					<?php		
-						}
-					?>
+							</div>
+						<?php		
+							}
+						?>
 				</div>
 
 				<!-- The content of tab 3 (load timetable)-->
@@ -119,343 +157,35 @@
 					<form name="settingsform" action="update-settings.php">
 						<table class="table">
 							<tr>
-							<td>
-								<!-- First column, Monday-->
-								<p id="settings-day">Monday</p>
-								<div class="item">
-									<label><input type="checkbox" name="mondayChecklist" value="Monday-0830" checked>0830 - 0930</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="mondayChecklist" value="Monday-0930" checked>0930 - 1030</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="mondayChecklist" value="Monday-1030" checked>1030 - 1130</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="mondayChecklist" value="Monday-1130" checked>1130 - 1230</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="mondayChecklist" value="Monday-1230" checked>1230 - 1330</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="mondayChecklist" value="Monday-1330" checked>1330 - 1430</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="mondayChecklist" value="Monday-1430" checked>1430 - 1530</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="mondayChecklist" value="Monday-1530" checked>1530 - 1630</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="mondayChecklist" value="Monday-1630" checked>1630 - 1730</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="mondayChecklist" value="Monday-1730" checked>1730 - 1830</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="mondayChecklist" value="Monday-1830" checked>1830 - 1930</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="mondayChecklist" value="Monday-1930" checked>1930 - 2030</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="mondayChecklist" value="Monday-2030" checked>2030 - 2130</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="mondayChecklist" value="Monday-2130" checked>2130 - 2230</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="mondayChecklist" value="Monday-2230" checked>2230 - 2330</input></label>
-								</div>
-								<div>
-									<button type="button" class="btn btn-default" name="monday-selectall" onClick="selectAll(document.settingsform.mondayChecklist)">Select All</button>
-								</div>
-								<div>
-									<button type="button" class="btn btn-default" name="monday-deselectall" onClick="deselectAll(document.settingsform.mondayChecklist)">Deselect All</button>
-								</div>
-							</td>
-							<td>
-								<!-- Second column, Tuesday-->
-								<p id="settings-day">Tuesday</p>
-								<div class="item">
-									<label><input type="checkbox" name="tuesdayChecklist" value="Tuesday-0830" checked>0830 - 0930</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="tuesdayChecklist" value="Tuesday-0930" checked>0930 - 1030</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="tuesdayChecklist" value="Tuesday-1030" checked>1030 - 1130</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="tuesdayChecklist" value="Tuesday-1130" checked>1130 - 1230</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="tuesdayChecklist" value="Tuesday-1230" checked>1230 - 1330</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="tuesdayChecklist" value="Tuesday-1330" checked>1330 - 1430</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="tuesdayChecklist" value="Tuesday-1430" checked>1430 - 1530</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="tuesdayChecklist" value="Tuesday-1530" checked>1530 - 1630</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="tuesdayChecklist" value="Tuesday-1630" checked>1630 - 1730</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="tuesdayChecklist" value="Tuesday-1730" checked>1730 - 1830</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="tuesdayChecklist" value="Tuesday-1830" checked>1830 - 1930</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="tuesdayChecklist" value="Tuesday-1930" checked>1930 - 2030</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="tuesdayChecklist" value="Tuesday-2030" checked>2030 - 2130</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="tuesdayChecklist" value="Tuesday-2130" checked>2130 - 2230</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="tuesdayChecklist" value="Tuesday-2230" checked>2230 - 2330</input></label>
-								</div>
-								<div>
-									<button type="button" class="btn btn-default" name="tuesday-selectall" onClick="selectAll(document.settingsform.tuesdayChecklist)">Select All</button>
-								</div>
-								<div>
-									<button type="button" class="btn btn-default" name="tuesday-deselectall" onClick="deselectAll(document.settingsform.tuesdayChecklist)">Deselect All</button>
-								</div>
-							</td>
-							<td>
-								<!-- Third column, Wednesday-->
-								<p id="settings-day">Wednesday</p>
-								<div class="item">
-									<label><input type="checkbox" name="wednesdayChecklist" value="Wednesday-0830" checked>0830 - 0930</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="wednesdayChecklist" value="Wednesday-0930" checked>0930 - 1030</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="wednesdayChecklist" value="Wednesday-1030" checked>1030 - 1130</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="wednesdayChecklist" value="Wednesday-1130" checked>1130 - 1230</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="wednesdayChecklist" value="Wednesday-1230" checked>1230 - 1330</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="wednesdayChecklist" value="Wednesday-1330" checked>1330 - 1430</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="wednesdayChecklist" value="Wednesday-1430" checked>1430 - 1530</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="wednesdayChecklist" value="Wednesday-1530" checked>1530 - 1630</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="wednesdayChecklist" value="Wednesday-1630" checked>1630 - 1730</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="wednesdayChecklist" value="Wednesday-1730" checked>1730 - 1830</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="wednesdayChecklist" value="Wednesday-1830" checked>1830 - 1930</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="wednesdayChecklist" value="Wednesday-1930" checked>1930 - 2030</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="wednesdayChecklist" value="Wednesday-2030" checked>2030 - 2130</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="wednesdayChecklist" value="Wednesday-2130" checked>2130 - 2230</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="wednesdayChecklist" value="Wednesday-2230" checked>2230 - 2330</input></label>
-								</div>
-								<div>
-									<button type="button" class="btn btn-default" name="wednesday-selectall" onClick="selectAll(document.settingsform.wednesdayChecklist)">Select All</button>
-								</div>
-								<div>
-									<button type="button" class="btn btn-default" name="wednesday-deselectall" onClick="deselectAll(document.settingsform.wednesdayChecklist)">Deselect All</button>
-								</div>
-							</td>
-							<td>
-								<!-- Fourth column, Thursday-->
-								<p id="settings-day">Thursday</p>
-								<div class="item">
-									<label><input type="checkbox" name="thursdayChecklist" value="Thursday-0830" checked>0830 - 0930</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="thursdayChecklist" value="Thursday-0930" checked>0930 - 1030</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="thursdayChecklist" value="Thursday-1030" checked>1030 - 1130</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="thursdayChecklist" value="Thursday-1130" checked>1130 - 1230</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="thursdayChecklist" value="Thursday-1230" checked>1230 - 1330</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="thursdayChecklist" value="Thursday-1330" checked>1330 - 1430</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="thursdayChecklist" value="Thursday-1430" checked>1430 - 1530</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="thursdayChecklist" value="Thursday-1530" checked>1530 - 1630</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="thursdayChecklist" value="Thursday-1630" checked>1630 - 1730</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="thursdayChecklist" value="Thursday-1730" checked>1730 - 1830</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="thursdayChecklist" value="Thursday-1830" checked>1830 - 1930</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="thursdayChecklist" value="Thursday-1930" checked>1930 - 2030</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="thursdayChecklist" value="Thursday-2030" checked>2030 - 2130</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="thursdayChecklist" value="Thursday-2130" checked>2130 - 2230</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="thursdayChecklist" value="Thursday-2230" checked>2230 - 2330</input></label>
-								</div>
-								<div>
-									<button type="button" class="btn btn-default" name="thursday-selectall" onClick="selectAll(document.settingsform.thursdayChecklist)">Select All</button>
-								</div>
-								<div>
-									<button type="button" class="btn btn-default" name="thursday-deselectall" onClick="deselectAll(document.settingsform.thursdayChecklist)">Deselect All</button>
-								</div>
-							</td>
-							<td>
-								<!-- Fifth column, Friday-->
-								<p id="settings-day">Friday</p>
-								<div class="item">
-									<label><input type="checkbox" name="fridayChecklist" value="Friday-0830" checked>0830 - 0930</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="fridayChecklist" value="Friday-0930" checked>0930 - 1030</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="fridayChecklist" value="Friday-1030" checked>1030 - 1130</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="fridayChecklist" value="Friday-1130" checked>1130 - 1230</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="fridayChecklist" value="Friday-1230" checked>1230 - 1330</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="fridayChecklist" value="Friday-1330" checked>1330 - 1430</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="fridayChecklist" value="Friday-1430" checked>1430 - 1530</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="fridayChecklist" value="Friday-1530" checked>1530 - 1630</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="fridayChecklist" value="Friday-1630" checked>1630 - 1730</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="fridayChecklist" value="Friday-1730" checked>1730 - 1830</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="fridayChecklist" value="Friday-1830" checked>1830 - 1930</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="fridayChecklist" value="Friday-1930" checked>1930 - 2030</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="fridayChecklist" value="Friday-2030" checked>2030 - 2130</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="fridayChecklist" value="Friday-2130" checked>2130 - 2230</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="fridayChecklist" value="Friday-2230" checked>2230 - 2330</input></label>
-								</div>
-								<div>
-									<button type="button" class="btn btn-default" name="friday-selectall" onClick="selectAll(document.settingsform.fridayChecklist)">Select All</button>
-								</div>
-								<div>
-									<button type="button" class="btn btn-default" name="friday-deselectall" onClick="deselectAll(document.settingsform.fridayChecklist)">Deselect All</button>
-								</div>
-							</td>
-							<td>
-								<!-- Sixth column, Saturday-->
-								<p id="settings-day">Saturday</p>
-								<div class="item">
-									<label><input type="checkbox" name="saturdayChecklist" value="Saturday-0830" checked>0830 - 0930</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="saturdayChecklist" value="Saturday-0930" checked>0930 - 1030</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="saturdayChecklist" value="Saturday-1030" checked>1030 - 1130</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="saturdayChecklist" value="Saturday-1130" checked>1130 - 1230</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="saturdayChecklist" value="Saturday-1230" checked>1230 - 1330</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="saturdayChecklist" value="Saturday-1330" checked>1330 - 1430</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="saturdayChecklist" value="Saturday-1430" checked>1430 - 1530</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="saturdayChecklist" value="Saturday-1530" checked>1530 - 1630</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="saturdayChecklist" value="Saturday-1630" checked>1630 - 1730</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="saturdayChecklist" value="Saturday-1730" checked>1730 - 1830</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="saturdayChecklist" value="Saturday-1830" checked>1830 - 1930</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="saturdayChecklist" value="Saturday-1930" checked>1930 - 2030</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="saturdayChecklist" value="Saturday-2030" checked>2030 - 2130</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="saturdayChecklist" value="Saturday-2130" checked>2130 - 2230</input></label>
-								</div>
-								<div class="item">
-									<label><input type="checkbox" name="saturdayChecklist" value="Saturday-2230" checked>2230 - 2330</input></label>
-								</div>
-								<div>
-									<button type="button" class="btn btn-default" name="saturday-selectall" onClick="selectAll(document.settingsform.saturdayChecklist)">Select All</button>
-								</div>
-								<div>
-									<button type="button" class="btn btn-default" name="saturday-deselectall" onClick="deselectAll(document.settingsform.saturdayChecklist)">Deselect All</button>
-								</div>
-							</td>
+							<?php 	
+								$timepreference = array(array());			
+								for ($w = 0; $w < sizeof($days); $w++) {
+									for ($x = 0; $x < sizeof($times)-1; $x++) {
+										$timepreference[$w][$x] = true;					//Initially all timeslots are selected
+									}
+								}
+
+								for ($y = 0; $y< sizeof($days); $y++) { ?>
+								<td>
+									<p id="settings-day"><?php echo $days[$y];?></p>
+									<?php for ($z = 0; $z < sizeof($times)-1; $z++) { ?>
+										<div class="item">
+										<label><input type="checkbox" name="<?php echo $days[$y]."checklist" ?>" id="<?php echo $y."-".$z; ?>" checked><?php echo $times[$z]; ?> - <?php echo $times[$z+1]; ?></input></label>
+										</div>
+									<?php	} ?>
+										<div>
+											<button type="button" class="btn btn-default" onClick="<?php echo "selectAll(document.settingsform.".$days[$y]."checklist)" ?>">Select All</button>
+										</div>
+										<div>
+											<button type="button" class="btn btn-default" onClick="<?php echo "deselectAll(document.settingsform.".$days[$y]."checklist)" ?>">Deselect All</button>
+										</div>
+								 </td> 
+							<?php } ?>
+							
 							</tr>
 
 						</table>
-						<button type="submit" class="btn btn-default center-block" id="settings-save-button">Save Settings</button>
 					</form>
-
-
 				</div>			
 			</div>
 		</div>
@@ -466,51 +196,59 @@
     			$(".nav-tabs a").click(function() {
         			$(this).tab('show');
     			});
-			});
-
+    			$('.nav-tabs a').on('show.bs.tab', function(){
+        			document.getElementById("timetabletotal").innerHTML = <?php echo json_encode(sizeof($tables)); ?>;
+    			});
+    			document.getElementById("table-1").style.visibility = "visible";
+    			alert("executed");
+			});	
 			
 			function selectAll(chkbox) {
 				for (i = 0; i < chkbox.length; i++) {
 					chkbox[i].checked = true;
 				}
 			}
-
 			function deselectAll(chkbox) {
 				for (i = 0; i < chkbox.length; i++) {
 					chkbox[i].checked = false;
 				}
 			}
-
 			function loadPlan(planNo) {
 				alert("Plan " + planNo + " loaded successfully!");
 			}
-
 			function loadPreviousTimetable() {
 				var current = document.getElementById("timetableno").innerHTML;
 				var previous = Number(current) - 1;
 				if (previous == 0) {
-					alert("There is no more previous timetable")
+					alert("There is no more previous timetable");
 					return;
 				} else {
 					document.getElementById("timetableno").innerHTML = previous;
 				}
 			}
-
 			function loadNextTimetable() {
 				var current = document.getElementById("timetableno").innerHTML;
 				var next = Number(current) + 1;
-				if (next == 0) {
-					return;
+				if (next > document.getElementById("timetabletotal").innerHTML) {
+					alert("There is no more next timetable");
 				} else {
 					document.getElementById("timetableno").innerHTML = next;
 				}
 			}
 
-
+			function changeSetting(chkbox) {
+				var id = chkbox.id;
+				$.ajax({
+        			url: 'Alba4.php',
+        			type: 'POST',
+        			data: {option : selectedValue},
+        			success: function() {
+            			console.log("Data sent!");
+        			}
+    			});
+			}
 		</script>
 
 
 	</body>
 </html>
-
-

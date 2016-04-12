@@ -78,10 +78,18 @@
       $startTime[$i] = array();
       $endTime[$i] = array();
       $day[$i] = array();
+      $venue[$i] = array();
+      $cgroup[$i] = array();
+      $ctype[$i] = array();
+      $remarks[$i] = array();
   	while(!empty($arg['courseID'])) {
       array_push($startTime[$i], $arg['startTime']);
    	  array_push($endTime[$i], $arg['endTime']);
       array_push($day[$i],$arg['day']);
+      array_push($venue[$i], $arg['venue']);
+      array_push($cgroup[$i], $arg['cgroup']);
+      array_push($ctype[$i], $arg['type']);
+      array_push($remarks[$i], $arg['remark']);
       $arg = mysql_fetch_array($res);
     }
   }
@@ -90,10 +98,14 @@
         for ($j = $i + 1; $j <= $n; ++$j) {
             if ($CourseID[$j] < $CourseID[$i]) {
                 swap ($CourseID[$j], $CourseID[$i]);
-                swap ($classID[$i], $classID[$j]);
+                swap ($ClassID[$i], $ClassID[$j]);
                 swap ($startTime[$i], $startTime[$j]);
                 swap ($endTime[$i], $endTime[$j]);
                 swap ($day[$i], $day[$j]);
+                swap ($venue[$i], $venue[$j]);
+                swap ($cgroup[$i], $cgroup[$j]);
+                swap ($ctype[$i], $ctype[$j]);
+                swap ($remarks[$i], $remarks[$j]);
             }
         }
     }
@@ -117,5 +129,5 @@
   $tables = array();
   solve (1);
 //
-  print_r ($tables);  
+  //print_r ($tables);  
   ?>
