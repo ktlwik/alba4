@@ -31,8 +31,9 @@
 							<input class="form-control" id="courseID" type = "text"  name = "courseid" placeholder = "Enter course :"></input>
 						</div>
 
-						<button type="submit" class="btn btn-default" >Submit</button>
+						<button type="submit" class="btn btn-default" >Add course</button>
 					</form>
+					<form role="form" action = "editIndex.php" method = "POST">
 					<?php
 						include ("bd.php");
 						$res = mysql_query("SELECT * FROM `timetable` WHERE `referenceID` = '1' AND `timetableID` = '4'");
@@ -40,18 +41,25 @@
 						$prev = "";
 						while(!empty($arg['courseID'])) {
 							if ($arg['courseID'] == $prev) {
-							$arg = mysql_fetch_array($res); echo $arg['classID']. " "; continue;
+							$arg = mysql_fetch_array($res); ?>
+							<div class="item">
+								<label><input type="checkbox" name="courseindex" value="<?php echo $arg['classID']; ?>"><?php echo $arg['classID']. " "; ?></input></label>
+							</div>
+							<?php continue;
 							}
-							echo "<br>". $arg['courseID'];
+							echo "<br>".$arg['courseID'];
 						?>
 			            <a href = "<?php echo "delete_course.php?courseid=".$arg['courseID']; ?>" id = "del"> <img src = "images/delete.png" id = "delimg"> </a>
+						<div class="item">
+								<label><input type="checkbox" name="courseindex" value="<?php echo $arg['classID']; ?>" ><?php echo $arg['classID']. " "; ?></input></label>
+						</div>
 						<?php
-							echo "<br>". $arg['classID']. " ";
 							$prev = $arg['courseID'];
-
 							$arg = mysql_fetch_array($res);
 							}
 						?>  
+						<button type="submit" class="btn btn-default" >Re-calculate timetable</button>
+					</form>
 				</div>
 			<!-- The content of tab 2 (view timetable)-->
 				<div class="tab-pane fade" id="viewtimetabletab">
@@ -154,7 +162,7 @@
 
 				<!-- The content of tab 4 (settings)-->
 				<div class="tab-pane fade" id="settingstab">
-					<p id="settings-header-text">Please untick the slot that you want it to be free time!</p>
+					<p id="settings-header-text">Please tick the slot that you want it to be free time!</p>
 					<form name="settingsform" action="updateSettings.php" method="POST">
 						<table class="table">
 							<tr>
@@ -170,7 +178,7 @@
 									<p id="settings-day"><?php echo $days[$y];?></p>
 									<?php for ($z = 0; $z < sizeof($times)-1; $z++) { ?>
 										<div class="item">
-										<label><input type="checkbox" name="<?php echo $days[$y]."checklist[]" ?>" value="<?php echo strtoupper(substr($days[$y], 0, 3)).$times[$z]; ?>" checked><?php echo $times[$z]; ?> - <?php echo $times[$z+1]; ?></input></label>
+										<label><input type="checkbox" name="<?php echo $days[$y]."checklist[]" ?>" value="<?php echo strtoupper(substr($days[$y], 0, 3)).$times[$z]; ?>"><?php echo $times[$z]; ?> - <?php echo $times[$z+1]; ?></input></label>
 										</div>
 									<?php	} ?>
 										<div>
