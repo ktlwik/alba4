@@ -67,7 +67,7 @@
 						$days = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
 						//Repeat for n timetables						
 						for ($i=0; $i < sizeof($tables); $i++) { ?>
-						<div id="<?php echo "table-".($i+1);?>" style="display:visible">
+						<div id="<?php echo "table-".($i+1);?>" style="display:none;">
 							<table class="table table-striped table-bordered" >
 								<tr>
 									<td>Time/Day</td>
@@ -86,10 +86,11 @@
 									<?php for ($k=0; $k < 6; $k++) { //Repeat for 6 days 
 										$output_text = "";
 										$num_row = 1;
+										$class_above=false;
 										for ($l = 1; $l <= count ($tables[$i]); ++$l) { //Repeat for all class in that timetable (timetable index start from 1) 
 											$index = $tables[$i][$l];					//Find the course in that slot
 											for ($m = 0; $m < count($startTime[$index]); ++$m) {
-												$class_above=false;								//To define number of row to be spanned
+																				//To define number of row to be spanned
 												$class_start_time = $startTime[$index][$m];
 												$class_end_time = $endTime[$index][$m];
 												for ($p=0; $p < sizeof($times)-1; $p++) {
@@ -200,8 +201,7 @@
     			$('.nav-tabs a').on('show.bs.tab', function(){
         			document.getElementById("timetabletotal").innerHTML = <?php echo json_encode(sizeof($tables)); ?>;
     			});
-    			document.getElementById("table-1").style.visibility = "visible";
-    			alert("executed");
+    			document.getElementById("table-1").style = "display: visible;";
 			});	
 			
 			function selectAll(chkbox) {
@@ -225,6 +225,8 @@
 					return;
 				} else {
 					document.getElementById("timetableno").innerHTML = previous;
+					document.getElementById("table-"+current).style = "display: none;";
+					document.getElementById("table-"+previous).style = "display: visible;";
 				}
 			}
 			function loadNextTimetable() {
@@ -234,6 +236,8 @@
 					alert("There is no more next timetable");
 				} else {
 					document.getElementById("timetableno").innerHTML = next;
+					document.getElementById("table-"+current).style = "display: none;";
+					document.getElementById("table-"+next).style = "display: visible;";
 				}
 			}
 
