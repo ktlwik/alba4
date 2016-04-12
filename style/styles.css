@@ -47,5 +47,6 @@ input[type="submit"] {
 
 table {
     width: 100%;
+    table-layout: fixed;
 }
          

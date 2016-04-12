@@ -171,14 +171,14 @@
 									<p id="settings-day"><?php echo $days[$y];?></p>
 									<?php for ($z = 0; $z < sizeof($times)-1; $z++) { ?>
 										<div class="item">
-										<label><input type="checkbox" name="<?php echo $days[$y]."checklist[]" ?>" id="<?php echo $days[$y]."-".$times[$z]; ?>" checked><?php echo $times[$z]; ?> - <?php echo $times[$z+1]; ?></input></label>
+										<label><input type="checkbox" name="<?php echo $days[$y]."checklist[]" ?>" value="<?php echo $days[$y]."-".$times[$z]; ?>" checked><?php echo $times[$z]; ?> - <?php echo $times[$z+1]; ?></input></label>
 										</div>
 									<?php	} ?>
 										<div>
-											<button type="button" class="btn btn-default" onClick="<?php echo "selectAll(document.settingsform.".$days[$y]."checklist)" ?>">Select All</button>
+											<button type="button" class="btn btn-default" onClick="<?php echo "selectAll(document.settingsform.".$days[$y]."checklist[])" ?>">Select All</button>
 										</div>
 										<div>
-											<button type="button" class="btn btn-default" onClick="<?php echo "deselectAll(document.settingsform.".$days[$y]."checklist)" ?>">Deselect All</button>
+											<button type="button" class="btn btn-default" onClick="<?php echo "deselectAll(document.settingsform.".$days[$y]."checklist[])" ?>">Deselect All</button>
 										</div>
 								 </td> 
 							<?php } ?>
@@ -186,7 +186,7 @@
 							</tr>
 
 						</table>
-						<button type="submit" class="btn btn-default" >Submit</button>
+						<button type="submit" class="btn btn-default" >Save</button>
 					</form>
 				</div>			
 			</div>
