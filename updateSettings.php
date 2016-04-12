@@ -1,26 +1,37 @@
 <?php
+	include("bd.php");
+	$res = mysql_query("DELETE FROM `settings` ");
 	foreach ($_POST['Mondaychecklist'] as $time) {
-		echo $time. " ";
+		$day = substr($time, 0, 3);
+		$t = substr($time, 3, 7);
+		$res = mysql_query("INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')");
 	}
-	echo "<br>";
 	foreach ($_POST['Tuesdaychecklist'] as $time) {
-		echo $time. " ";
+		$day = substr($time, 0, 3);
+		$t = substr($time, 3, 7);
+		$res = mysql_query("INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')");
 	}
-	echo "<br>";
 	foreach ($_POST['Wednesdaychecklist'] as $time) {
-		echo $time. " ";
+		$day = substr($time, 0, 3);
+		$t = substr($time, 3, 7);
+		$res = mysql_query("INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')");
 	}
-	echo "<br>";
 	foreach ($_POST['Thursdaychecklist'] as $time) {
-		echo $time. " ";
+		$day = substr($time, 0, 3);
+		$t = substr($time, 3, 7);
+		$res = mysql_query("INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')");
 	}
-	echo "<br>";
 	foreach ($_POST['Fridaychecklist'] as $time) {
-		echo $time. " ";
+		$day = substr($time, 0, 3);
+		$t = substr($time, 3, 7);
+		$res = mysql_query("INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')");
 	}
-	echo "<br>";
 	foreach ($_POST['Saturdaychecklist'] as $time) {
-		echo $time. " ";
+		$day = substr($time, 0, 3);
+		$t = substr($time, 3, 7);
+		$res = mysql_query("INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')");
 
 	}
+	{header("Location: Alba4.php"); die();}
+
 ?>

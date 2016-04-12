@@ -10,7 +10,7 @@
       global $day, $startTime, $endTime;
       for ($ind = 0; $ind < count ($day[$i]); ++$ind) {
         $Day = $day[$i][$ind];
-        $res = mysql_query("SELECT * FROM `Settings` WHERE `day` = '$Day'");
+        $res = mysql_query("SELECT * FROM `settings` WHERE `day` = '$Day'");
         if ($res) $arg = mysql_fetch_array($res);
         while (!empty($arg['day'])) {
           $time = $arg['time'];
