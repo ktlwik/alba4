@@ -1,9 +1,8 @@
 <?php
     function swap(&$a, &$b) {
-        $A = $a;
-        $B = $b;
-        $a = $B;
-        $b = $A;
+        $tmp = $a;
+        $a = $b;
+        $b = $tmp;
     }
 
     function getWeek ($word) {
@@ -17,7 +16,6 @@
        if (count ($spie) == 1) $result[(int)$spie[0]] = 1;
        else for ($j = (int)$spie[0]; $j <= (int) $spie[1]; ++$j) $result[$j] = 1;
      }
-
       return $result;
    }
 
@@ -42,12 +40,12 @@
       }
       return 0; // I need to check whether my course clash with the selected times
    }
+
    function check ($dayI, $dayJ, $startTimeI, $startTimeJ, $endTimeI, $endTimeJ, $remarksI, $remarksJ) {
      $clash = cmp ($remarksI, $remarksJ);
-     if ($clash == 1) return 0;
      if ($dayI != $dayJ) return 0;
-     if (($endTimeI < $startTimeJ) || ($endTimeJ < $startTimeI)) return 0;
-
+     $a = (($endTimeI < $startTimeJ && $startTimeJ < $startTimeI) || ($endTimeJ < $startTimeI && $startTimeI < $startTimeJ)); 
+     if ($a || (!$a && $clash == 1)) return 0;
      return 1; // checks if 2 courses clash or not
    }
   
@@ -158,7 +156,5 @@
     else $sz[$CourseID[$i]] ++;
   }
   $tables = array();
-  solve (1);
-//
-  //print_r ($tables);  
+  solve (1); 
   ?>

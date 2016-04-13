@@ -42,7 +42,7 @@
 						while(!empty($arg['courseID'])) {
 							if ($arg['courseID'] == $prev) { ?>
 							<div class="item">
-								<label><input type="checkbox" name="courseindex[]" value="<?php echo $arg['courseID']."-".$arg['classID']; ?>"><?php echo $arg['classID']. " "; ?></input></label>
+								<label><input type="checkbox" name="courseindex[]" value="<?php echo $arg['courseID']."-".$arg['']; ?>" checked><?php echo $arg['classID']. " "; ?></input></label>
 							</div>
 							<?php
 							$arg = mysql_fetch_array($res); continue;
@@ -51,7 +51,7 @@
 						?>
 			            <a href = "<?php echo "delete_course.php?courseid=".$arg['courseID']; ?>" id = "del"> <img src = "images/delete.png" id = "delimg"> </a>
 						<div class="item">
-								<label><input type="checkbox" name="courseindex[]" value="<?php echo $arg['courseID']."-".$arg['classID']; ?>" ><?php echo $arg['classID']. " "; ?></input></label>
+								<label><input type="checkbox" name="courseindex[]" value="<?php echo $arg['courseID']."-".$arg['classID']; ?>" checked><?php echo $arg['classID']. " "; ?></input></label>
 						</div>
 						<?php
 							$prev = $arg['courseID'];
@@ -76,6 +76,14 @@
 						//Repeat for n timetables						
 						for ($i=0; $i < sizeof($tables); $i++) { ?>
 						<div id="<?php echo "table-".($i+1);?>" style="display:none;">
+						<?php
+						for ($l = 1; $l <= count ($tables[$i]); ++$l) { //Repeat for all course in that timetable (timetable index start from 1) 
+											$index = $tables[$i][$l];					//Find the course in that slot
+											for ($m = 0; $m < count($startTime[$index]); ++$m) {
+							echo $CourseID[$index]." ".$ctype[$index][$m]." ".$cgroup[$index][$m]." ".$venue[$index][$m]." ".$remarks[$index][$m]." ".$startTime[$index][$m]."<br />";
+							}
+						}
+						?>
 							<table class="table table-striped table-bordered" >
 								<tr>
 									<td>Time/Day</td>
@@ -93,12 +101,13 @@
 									<td><?php echo $times[$j]; ?> - <?php echo $times[$j+1]; ?></td>
 									<?php for ($k=0; $k < 6; $k++) { //Repeat for 6 days 
 										$output_text = "";
-										$num_row = 1;
+										$num_row = 0;
+										$num_course = 0;
 										$class_above=false;
-										for ($l = 1; $l <= count ($tables[$i]); ++$l) { //Repeat for all class in that timetable (timetable index start from 1) 
+										for ($l = 1; $l <= count ($tables[$i]); ++$l) { //Repeat for all course in that timetable (timetable index start from 1) 
 											$index = $tables[$i][$l];					//Find the course in that slot
-											for ($m = 0; $m < count($startTime[$index]); ++$m) {
-																				//To define number of row to be spanned
+											for ($m = 0; $m < count($startTime[$index]); ++$m) {	//Repeat for all index in that particular course
+												//To define number of row to be spanned
 												$class_start_time = $startTime[$index][$m];
 												$class_end_time = $endTime[$index][$m];
 												for ($p=0; $p < sizeof($times)-1; $p++) {
@@ -110,24 +119,27 @@
 														break;
 													}
 												}
-												if (($class_start_slot < $j) && ($class_end_slot >= $j+1) && (strtolower($day[$index][$m]) == strtolower(substr($days[$k], 0, 3))))  {
+												if (($class_start_slot < $j) && ($class_end_slot > $j) && (strtolower($day[$index][$m]) == strtolower(substr($days[$k], 0, 3))))  {
 													$class_above = true;		//Whether there is a class in the slot above and spanned to this cell
 													break;						//If so, the declaration of <td></td> will not be executed
 												}
 												if (($startTime[$index][$m] == $times[$j]) && (strtolower($day[$index][$m]) == strtolower(substr($days[$k], 0, 3)))) {
-													$output_text = $CourseID[$index]." ".$ctype[$index][$m]." ".$cgroup[$index][$m]." ".$venue[$index][$m]." ".$remarks[$index][$m];
+													$num_course++;
+													$num_row++;
+													if (!strpos($output_text, $CourseID[$index]." ".$ctype[$index][$m]." ".$cgroup[$index][$m]." ".$venue[$index][$m]." ".$remarks[$index][$m])) {
+														$output_text .= $CourseID[$index]." ".$ctype[$index][$m]." ".$cgroup[$index][$m]." ".$venue[$index][$m]." ".$remarks[$index][$m];
+													}
 													for ($n = $j+1; $n < sizeof($times)-1; $n++) {		//To define number of rowspan
 														if ($times[$n] != $endTime[$index][$m]) {
 															$num_row++;
 														} else break;											
 													}
-													break;
 												} 
 											}
 										}
 									if (!$class_above) {	
 									?>
-									<td rowspan="<?php echo $num_row; ?>"><?php echo $output_text; ?></td>
+									<td rowspan="<?php echo $num_row/$num_course; ?>"><?php echo $output_text; ?></td>
 								
 								<?php	}	
 									}
@@ -261,7 +273,5 @@
     			});
 			}
 		</script>
-
-
 	</body>
 </html>
