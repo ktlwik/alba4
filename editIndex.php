@@ -1,5 +1,5 @@
 <?php
-  include("bd.php");
+  include("startDatabase.php");
   $referenceID = 1;// < --- need to change
   $timetableID = 4;
   $res = mysql_query("UPDATE `timetable` SET `flag` = '0' WHERE `referenceID` = '$referenceID' AND `timetableID` = '$timetableID'");

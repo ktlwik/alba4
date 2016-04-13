@@ -84,7 +84,7 @@
         solve ($index + 1, $len);
       }
    }
-   include ("bd.php");
+   include ("startDatabase.php");
    $referenceID = 1; // < --- need to change
    $timetableID = 4; // constant for calculation 
    $res = mysql_query("SELECT * FROM `timetable` WHERE `referenceID` = '$referenceID' 

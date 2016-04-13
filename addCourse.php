@@ -5,7 +5,7 @@ if(!empty($_POST['courseid'])) {
 	$referenceID = 1;// < --- need to change
 	$timetableID = 4;
 
-	include("bd.php");
+	include("startDatabase.php");
 	$res = mysql_query("SELECT * FROM `timetable` WHERE `referenceID` = '$referenceID' 
 		                                        AND `timetableID` = '$timetableID' AND `courseID` = '$courseID'");
 	if ($res) $arg = mysql_fetch_array($res);

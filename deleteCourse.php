@@ -1,6 +1,6 @@
 <?php
 
-   include ("bd.php");
+   include ("startDatabase.php");
  $courseID = $_GET['courseid'];
 
  $referenceID = 1;// < --- need to change

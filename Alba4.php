@@ -25,7 +25,7 @@
 			<div class="tab-content">
 				<!-- The content of tab 1 (add course)-->
 				<div class="tab-pane fade in active" id="addcoursetab">
-					<form role="form" action = "add_course.php" method = "POST">
+					<form role="form" action = "addCourse.php" method = "POST">
 						<div class="form-group">
 							<label for="course">Course :</label>
 							<input class="form-control" id="courseID" type = "text"  name = "courseid" placeholder = "Enter course :"></input>
@@ -35,7 +35,7 @@
 					</form>
 					<form role="form" action = "editIndex.php" method = "POST">
 					<?php
-						include ("bd.php");
+						include ("startDatabase.php");
 						$res = mysql_query("SELECT * FROM `timetable` WHERE `referenceID` = '1' AND `timetableID` = '4'");
 						if ($res) $arg = mysql_fetch_array($res);
 						$prev = "";
@@ -49,7 +49,7 @@
 							}
 							echo "<br>".$arg['courseID'];
 						?>
-			            <a href = "<?php echo "delete_course.php?courseid=".$arg['courseID']; ?>" id = "del"> <img src = "images/delete.png" id = "delimg"> </a>
+			            <a href = "<?php echo "deleteCourse.php?courseid=".$arg['courseID']; ?>" id = "del"> <img src = "images/delete.png" id = "delimg"> </a>
 						<div class="item">
 								<label><input type="checkbox" name="courseindex[]" value="<?php echo $arg['courseID']."-".$arg['classID']; ?>" checked><?php echo $arg['classID']. " "; ?></input></label>
 						</div>

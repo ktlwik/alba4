@@ -1,5 +1,5 @@
 <?php
-	include("bd.php");
+	include("startDatabase.php");
 	$res = mysql_query("DELETE FROM `settings` ");
 	foreach ($_POST['Mondaychecklist'] as $time) {
 		$day = substr($time, 0, 3);

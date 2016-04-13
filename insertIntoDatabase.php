@@ -11,7 +11,7 @@
     	return 1;
     }
 
-	include("bd.php");
+	include("startDatabase.php");
 	$dir    = './courses';
 	$files = scandir($dir, 0);
 	for ($j = 2; $j < count($files); ++$j) {
