@@ -5,6 +5,28 @@
         $a = $B;
         $b = $A;
     }
+
+    function getWeek ($word) {
+     $result = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+      if ($word[0] != 'W') return $result;
+        $word = substr($word, 2);
+     $pieces = explode(",", $word);
+     for ($i = 0; $i < count ($pieces); ++$i) {
+       $sub = $pieces[$i];
+       $spie = explode ("-", $sub);
+       if (count ($spie) == 1) $result[(int)$spie[0]] = 1;
+       else for ($j = (int)$spie[0]; $j <= (int) $spie[1]; ++$j) $result[$j] = 1;
+     }
+
+      return $result;
+   }
+
+  function cmp ($word1, $word2) {
+    $res1 = getWeek ($word1);
+    $res2 = getWeek ($word2);
+    for ($i = 1; $i <= 13; ++$i) if ($res1[$i] == $res2[$i] && $res1[$i] == 1) return 0;
+    return 1;
+  }
      
    function is_collapse($i) {
       global $day, $startTime, $endTime;
@@ -20,17 +42,20 @@
       }
       return 0; // I need to check whether my course clash with the selected times
    }
-   function check ($dayI, $dayJ, $startTimeI, $startTimeJ, $endTimeI, $endTimeJ) {
+   function check ($dayI, $dayJ, $startTimeI, $startTimeJ, $endTimeI, $endTimeJ, $remarksI, $remarksJ) {
+     $clash = cmp ($remarksI, $remarksJ);
+     if ($clash == 1) return 0;
      if ($dayI != $dayJ) return 0;
      if (($endTimeI < $startTimeJ) || ($endTimeJ < $startTimeI)) return 0;
+
      return 1; // checks if 2 courses clash or not
    }
   
    function clash ($i, $j) {
-      global $day, $startTime, $endTime;
+      global $day, $startTime, $endTime, $remarks;
       for ($ind1 = 0; $ind1 < count ($day[$i]); ++$ind1) {
         for ($ind2 = 0; $ind2 < count ($day[$j]); ++$ind2)
-          if (check ($day[$i][$ind1], $day[$j][$ind2], $startTime[$i][$ind1], $startTime[$j][$ind2], $endTime[$i][$ind1], $endTime[$j][$ind2]) == 1) {
+          if (check ($day[$i][$ind1], $day[$j][$ind2], $startTime[$i][$ind1], $startTime[$j][$ind2], $endTime[$i][$ind1], $endTime[$j][$ind2], $remarks[$i][$ind1], $remarks[$j][$ind2]) == 1) {
             return 1;
           }
       }
