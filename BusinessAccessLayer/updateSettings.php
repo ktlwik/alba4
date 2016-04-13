@@ -1,5 +1,5 @@
 <?php
-	include("startDatabase.php");
+	include("../DataAccessLayer/startDatabase.php");
 	$res = mysql_query("DELETE FROM `settings` ");
 	foreach ($_POST['Mondaychecklist'] as $time) {
 		$day = substr($time, 0, 3);
@@ -32,6 +32,6 @@
 		$res = mysql_query("INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')");
 
 	}
-	{header("Location: Alba4.php"); die();}
+	{header("Location: ../Alba4.php"); die();}
 
 ?>

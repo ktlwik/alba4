@@ -2,7 +2,7 @@
 	<head>
 		<title>Alba4 - Your Timetable Generator!</title>
 		
-		<link rel="icon" href="icon.png">
+		<link rel="icon" href="images/icon.png">
 
 		<link rel="stylesheet" type="text/css" href="style/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="style/styles.css">
@@ -25,7 +25,7 @@
 			<div class="tab-content">
 				<!-- The content of tab 1 (add course)-->
 				<div class="tab-pane fade in active" id="addcoursetab">
-					<form role="form" action = "addCourse.php" method = "POST">
+					<form role="form" action = "BusinessAccessLayer/addCourse.php" method = "POST">
 						<div class="form-group">
 							<label for="course">Course :</label>
 							<input class="form-control" id="courseID" type = "text"  name = "courseid" placeholder = "Enter course :"></input>
@@ -33,9 +33,9 @@
 
 						<button type="submit" class="btn btn-default" >Add course</button>
 					</form>
-					<form role="form" action = "editIndex.php" method = "POST">
+					<form role="form" action = "BusinessAccessLayer/editIndex.php" method = "POST">
 					<?php
-						include ("startDatabase.php");
+						include ("DataAccessLayer/startDatabase.php");
 						$res = mysql_query("SELECT * FROM `timetable` WHERE `referenceID` = '1' AND `timetableID` = '4'");
 						if ($res) $arg = mysql_fetch_array($res);
 						$prev = "";
@@ -49,7 +49,7 @@
 							}
 							echo "<br>".$arg['courseID'];
 						?>
-			            <a href = "<?php echo "deleteCourse.php?courseid=".$arg['courseID']; ?>" id = "del"> <img src = "images/delete.png" id = "delimg"> </a>
+			            <a href = "<?php echo "BusinessAccessLayer/deleteCourse.php? courseid=".$arg['courseID']; ?>" id = "del"> <img src = "images/delete.png" id = "delimg"> </a>
 						<div class="item">
 								<label><input type="checkbox" name="courseindex[]" value="<?php echo $arg['courseID']."-".$arg['classID']; ?>" checked><?php echo $arg['classID']. " "; ?></input></label>
 						</div>
@@ -70,7 +70,7 @@
 						<button type="button" class="btn btn-default" id="nextTimetableButton" onClick="loadNextTimetable()">Next</button>
 					</center>
 					<?php 
-						include("calc.php");
+						include("BusinessAccessLayer/findTimetableCombination.php");
 						$times = array("0830", "0900", "0930", "1000", "1030", "1100", "1130", "1200", "1230", "1300", "1330", "1400", "1430", "1500", "1530", "1600", "1630", "1700", "1730", "1800", "1830", "1900", "1930", "2000", "2030", "2100", "2130", "2200", "2230", "2300", "2330");
 						$days = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
 						//Repeat for n timetables						
@@ -175,7 +175,7 @@
 				<!-- The content of tab 4 (settings)-->
 				<div class="tab-pane fade" id="settingstab">
 					<p id="settings-header-text">Please tick the slot that you want it to be free time!</p>
-					<form name="settingsform" action="updateSettings.php" method="POST">
+					<form name="settingsform" action="BusinessAccessLayer/updateSettings.php" method="POST">
 						<table class="table">
 							<tr>
 							<?php 	

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 31, 2016 at 01:18 PM
+-- Generation Time: Apr 12, 2016 at 11:23 AM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 5.6.19
 
@@ -27879,6 +27879,53 @@ INSERT INTO `course` (`courseID`, `courseName`, `AU`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `settings`
+--
+
+CREATE TABLE `settings` (
+  `day` varchar(10) NOT NULL,
+  `time` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `settings`
+--
+
+INSERT INTO `settings` (`day`, `time`) VALUES
+('SAT', '0830'),
+('SAT', '0900'),
+('SAT', '0930'),
+('SAT', '1000'),
+('SAT', '1030'),
+('SAT', '1100'),
+('SAT', '1130'),
+('SAT', '1200'),
+('SAT', '1230'),
+('SAT', '1300'),
+('SAT', '1330'),
+('SAT', '1400'),
+('SAT', '1430'),
+('SAT', '1500'),
+('SAT', '1530'),
+('SAT', '1600'),
+('SAT', '1630'),
+('SAT', '1700'),
+('SAT', '1730'),
+('SAT', '1800'),
+('SAT', '1830'),
+('SAT', '1900'),
+('SAT', '1930'),
+('SAT', '2000'),
+('SAT', '2030'),
+('SAT', '2100'),
+('SAT', '2130'),
+('SAT', '2200'),
+('SAT', '2230'),
+('SAT', '2300');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `timetable`
 --
 
@@ -27896,8 +27943,37 @@ CREATE TABLE `timetable` (
 INSERT INTO `timetable` (`classID`, `courseID`, `referenceID`, `timetableID`) VALUES
 ('Yergozha', 'Nuri', 0, 0),
 ('Yergozha', 'Nuri', 0, 0),
-('00770', 'AB0601', 1, 4),
-('00771', 'AB0601', 1, 4);
+('10351', 'CZ2007', 1, 4),
+('10352', 'CZ2007', 1, 4),
+('10729', 'CZ2007', 1, 4),
+('10341', 'CZ2006', 1, 4),
+('10342', 'CZ2006', 1, 4),
+('10343', 'CZ2006', 1, 4),
+('10344', 'CZ2006', 1, 4),
+('10345', 'CZ2006', 1, 4),
+('10347', 'CZ2006', 1, 4),
+('10575', 'CZ2006', 1, 4),
+('10582', 'CZ2006', 1, 4),
+('10725', 'CZ2006', 1, 4),
+('10381', 'CZ3003', 1, 4),
+('10382', 'CZ3003', 1, 4),
+('10383', 'CZ3003', 1, 4),
+('10384', 'CZ3003', 1, 4),
+('10385', 'CZ3003', 1, 4),
+('10386', 'CZ3003', 1, 4),
+('10387', 'CZ3003', 1, 4),
+('10388', 'CZ3003', 1, 4),
+('10389', 'CZ3003', 1, 4),
+('10583', 'CZ3003', 1, 4),
+('10639', 'CZ3003', 1, 4),
+('10656', 'CZ3003', 1, 4),
+('10731', 'CZ3003', 1, 4),
+('10745', 'CZ3003', 1, 4),
+('10749', 'CZ3003', 1, 4),
+('10401', 'CZ3006', 1, 4),
+('10402', 'CZ3006', 1, 4),
+('10565', 'CZ3006', 1, 4),
+('10737', 'CZ3006', 1, 4);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -5,7 +5,7 @@ if(!empty($_POST['courseid'])) {
 	$referenceID = 1;// < --- need to change
 	$timetableID = 4;
 
-	include("startDatabase.php");
+	include("../DataAccessLayer/startDatabase.php");
 	$res = mysql_query("SELECT * FROM `timetable` WHERE `referenceID` = '$referenceID' 
 		                                        AND `timetableID` = '$timetableID' AND `courseID` = '$courseID'");
 	if ($res) $arg = mysql_fetch_array($res);
@@ -27,7 +27,7 @@ if(!empty($_POST['courseid'])) {
  		$classID = $class[$i];
  		$r = mysql_query("INSERT INTO `timetable` (`classID`, `courseID`, `referenceID`, `timetableID`, `flag`) VALUES ('$classID', '$courseID', '$referenceID', '$timetableID', '1')");
  	} 
-	{header("Location: Alba4.php"); die();}
+	{header("Location: ../Alba4.php"); die();}
 }
 
 ?>
