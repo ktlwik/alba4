@@ -42,7 +42,7 @@
 						while(!empty($arg['courseID'])) {
 							if ($arg['courseID'] == $prev) { ?>
 							<div class="item">
-								<label><input type="checkbox" name="courseindex[]" value="<?php echo $arg['courseID']."-".$arg['']; ?>" checked><?php echo $arg['classID']. " "; ?></input></label>
+								<label><input type="checkbox" name="courseindex[]" value="<?php echo $arg['courseID']."-".$arg['classID']; ?>" checked><?php echo $arg['classID']. " "; ?></input></label>
 							</div>
 							<?php
 							$arg = mysql_fetch_array($res); continue;
