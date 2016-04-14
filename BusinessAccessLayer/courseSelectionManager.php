@@ -1,7 +1,7 @@
 <?php
-
+	echo getcwd();
 	include("../DataAccessLayer/startDatabase.php");
-	//if (isset($_POST['delimg'])) echo "1"; else echo "0";
+	
 	if (isset($_POST['addCourseSubmitBtn'])) {
 		addCourse();
 	} else if (isset($_POST['editIndexSubmitBtn'])) {
@@ -53,7 +53,6 @@
 	}
 	
 	function editIndex() {
-		include("../DataAccessLayer/startDatabase.php");
 		  $referenceID = 1;// < --- need to change
 		  $timetableID = 4;
 		  $res = mysql_query("UPDATE `timetable` SET `flag` = '0' WHERE `referenceID` = '$referenceID' AND `timetableID` = '$timetableID'");
@@ -72,7 +71,5 @@
 		  
 		  {header("Location: ../Alba4.php"); die();}
 	}
-
-
 
 ?>

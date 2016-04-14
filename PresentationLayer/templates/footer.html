@@ -1,0 +1,66 @@
+</div>
+		</div>
+
+		<script>
+			<!-- Change tab content -->
+			$(document).ready(function() {
+    			$(".nav-tabs a").click(function() {
+        			$(this).tab('show');
+    			});
+    			$('.nav-tabs a').on('show.bs.tab', function(){
+        			document.getElementById("timetabletotal").innerHTML = <?php echo json_encode(sizeof($tables)); ?>;
+    			});
+    			document.getElementById("table-1").style = "display: visible;";
+			});	
+			
+			function selectAll(chkbox) {
+				for (i = 0; i < chkbox.length; i++) {
+					chkbox[i].checked = true;
+				}
+				
+			}
+			function deselectAll(chkbox) {
+				for (i = 0; i < chkbox.length; i++) {
+					chkbox[i].checked = false;
+				}
+			}
+			function loadPlan(planNo) {
+				alert("Plan " + planNo + " loaded successfully!");
+			}
+			function loadPreviousTimetable() {
+				var current = document.getElementById("timetableno").innerHTML;
+				var previous = Number(current) - 1;
+				if (previous == 0) {
+					alert("There is no more previous timetable");
+					return;
+				} else {
+					document.getElementById("timetableno").innerHTML = previous;
+					document.getElementById("table-"+current).style = "display: none;";
+					document.getElementById("table-"+previous).style = "display: visible;";
+				}
+			}
+			function loadNextTimetable() {
+				var current = document.getElementById("timetableno").innerHTML;
+				var next = Number(current) + 1;
+				if (next > document.getElementById("timetabletotal").innerHTML) {
+					alert("There is no more next timetable");
+				} else {
+					document.getElementById("timetableno").innerHTML = next;
+					document.getElementById("table-"+current).style = "display: none;";
+					document.getElementById("table-"+next).style = "display: visible;";
+				}
+			}
+			function changeSetting(chkbox) {
+				var id = chkbox.id;
+				$.ajax({
+        			url: 'Alba4.php',
+        			type: 'POST',
+        			data: {option : selectedValue},
+        			success: function() {
+            			console.log("Data sent!");
+        			}
+    			});
+			}
+		</script>
+	</body>
+</html>
