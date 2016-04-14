@@ -11,10 +11,11 @@
     	return 1;
     }
 
-	include("startDatabase.php");
+	include("DataAccessLayer/PDOFactory.php");
 	$dir    = './courses';
 	$files = scandir($dir, 0);
 	for ($j = 2; $j < count($files); ++$j) {
+		$len = 0;
 		$len = 0;
 		$myfile = fopen("./courses/".$files[$j], "r") or die("Unable to open file!");
     	unset ($str);
@@ -35,7 +36,12 @@
  				$courseID = $str[$i - 3];
  				$courseName = $str[$i - 2];
  				$AU = $str[$i - 1];	
- 				$res = mysql_query("INSERT INTO `course` (`courseID`, `courseName`, `AU`) VALUES ('$courseID', '$courseName', '$AU')");
+ 
+				$datafactory = new PDOFactory();
+				$datafactory->create();
+	
+				$sqlstatement = "INSERT INTO `course` (`courseID`, `courseName`, `AU`) VALUES ('$courseID', '$courseName', '$AU')";
+				$result = $datafactory->execute($sqlstatement);
  
  				//$courseID, $courseName, $AU -> update courses
  				/*echo "courseID: " . $courseID . "<br>" . "course Name: " . $courseName . "<br>" . "AU: " . $AU ."<br>";

@@ -9,17 +9,19 @@
 		</form>
 		<form role="form" action = "BusinessAccessLayer/courseSelectionManager.php" method = "POST">
 		<?php
-			include ("DataAccessLayer/startDatabase.php");
-			$res = mysql_query("SELECT * FROM `timetable` WHERE `referenceID` = '1' AND `timetableID` = '4'");
-			if ($res) $arg = mysql_fetch_array($res);
+			
+			$sqlstatement = "SELECT * FROM `timetable` WHERE `referenceID` = '1' AND `timetableID` = '4'";
+			$result = $datafactory->execute($sqlstatement);
+			$arg = $datafactory->fetch($result);
+			
 			$prev = "";
 			while(!empty($arg['courseID'])) {
 				if ($arg['courseID'] == $prev) { ?>
 				<div class="item">
-					<label><input type="checkbox" name="courseindex[]" value="<?php echo $arg['courseID']."-".$arg['']; ?>" checked><?php echo $arg['classID']. " "; ?></input></label>
+					<label><input type="checkbox" name="courseindex[]" value="<?php echo $arg['courseID']."-".$arg['classID']; ?>" checked><?php echo $arg['classID']. " "; ?></input></label>
 				</div>
 				<?php
-					$arg = mysql_fetch_array($res); continue;
+					$arg = $datafactory->fetch($result); continue;
 				}
 				echo "<br>".$arg['courseID'];
 				?>
@@ -29,7 +31,7 @@
 				</div>
 				<?php
 					$prev = $arg['courseID'];
-					$arg = mysql_fetch_array($res);
+					$arg = $arg = $datafactory->fetch($result);
 				}
 		?>  
 			<button type="submit" name="editIndexSubmitBtn" class="btn btn-default" >Re-calculate timetable</button>

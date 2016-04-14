@@ -1,42 +1,53 @@
 <?php
 
-	include("../DataAccessLayer/startDatabase.php");
+	include("../DataAccessLayer/PDOFactory.php");
+	
 	if (isset($_POST['editTimePreferenceSubmitBtn'])) {
 		editTimePreference();
 	} // else ...
-	//open for extensibility (another preferences type
+	//open for extensibility (another preferences type)
 	
 	function editTimePreference() {
-		$res = mysql_query("DELETE FROM `settings` ");
+		$datafactory = new PDOFactory();
+		$datafactory->create();
+		$sqlstatement = "DELETE FROM `settings` ";
+		$result = $datafactory->execute($sqlstatement);
+
 		foreach ($_POST['Mondaychecklist'] as $time) {
 			$day = substr($time, 0, 3);
 			$t = substr($time, 3, 7);
-			$res = mysql_query("INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')");
+			$sqlstatement = "INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')";
+			$result = $datafactory->execute($sqlstatement);
 		}
 		foreach ($_POST['Tuesdaychecklist'] as $time) {
 			$day = substr($time, 0, 3);
 			$t = substr($time, 3, 7);
-			$res = mysql_query("INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')");
+			$sqlstatement = "INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')";
+			$result = $datafactory->execute($sqlstatement);
 		}
 		foreach ($_POST['Wednesdaychecklist'] as $time) {
 			$day = substr($time, 0, 3);
 			$t = substr($time, 3, 7);
-			$res = mysql_query("INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')");
+			$sqlstatement = "INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')";
+			$result = $datafactory->execute($sqlstatement);
 		}
 		foreach ($_POST['Thursdaychecklist'] as $time) {
 			$day = substr($time, 0, 3);
 			$t = substr($time, 3, 7);
-			$res = mysql_query("INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')");
+			$sqlstatement = "INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')";
+			$result = $datafactory->execute($sqlstatement);
 		}
 		foreach ($_POST['Fridaychecklist'] as $time) {
 			$day = substr($time, 0, 3);
 			$t = substr($time, 3, 7);
-			$res = mysql_query("INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')");
+			$sqlstatement = "INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')";
+			$result = $datafactory->execute($sqlstatement);
 		}
 		foreach ($_POST['Saturdaychecklist'] as $time) {
 			$day = substr($time, 0, 3);
 			$t = substr($time, 3, 7);
-			$res = mysql_query("INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')");
+			$sqlstatement = "INSERT INTO `Settings` (`day`, `time`) VALUES ('$day', '$t')";
+			$result = $datafactory->execute($sqlstatement);
 		}
 		{header("Location: ../Alba4.php"); die();}
 	}

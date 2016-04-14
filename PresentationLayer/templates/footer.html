@@ -7,9 +7,16 @@
     			$(".nav-tabs a").click(function() {
         			$(this).tab('show');
     			});
-    			$('.nav-tabs a').on('show.bs.tab', function(){
+    			$('.nav-tabs a').on('show.bs.tab', function(event){
         			document.getElementById("timetabletotal").innerHTML = <?php echo json_encode(sizeof($tables)); ?>;
+					var num_tables = <?php echo json_encode(sizeof($tables)); ?>;
+					var x = $(event.target).text(); 
+					if (num_tables <= 1 && x == "View Timetable") {
+						alert("No possible combination");
+						location.reload();
+					}
     			});
+								
     			document.getElementById("table-1").style = "display: visible;";
 			});	
 			
