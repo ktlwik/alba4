@@ -25,15 +25,15 @@
 			<div class="tab-content">
 				<!-- The content of tab 1 (add course)-->
 				<div class="tab-pane fade in active" id="addcoursetab">
-					<form role="form" action = "BusinessAccessLayer/addCourse.php" method = "POST">
+					<form role="form" action = "BusinessAccessLayer/courseSelectionManagement.php" method = "POST">
 						<div class="form-group">
 							<label for="course">Course :</label>
 							<input class="form-control" id="courseID" type = "text"  name = "courseid" placeholder = "Enter course :"></input>
 						</div>
 
-						<button type="submit" class="btn btn-default" >Add course</button>
+						<button type="submit" name="addCourseSubmitBtn" class="btn btn-default" >Add course</button>
 					</form>
-					<form role="form" action = "BusinessAccessLayer/editIndex.php" method = "POST">
+					<form role="form" action = "BusinessAccessLayer/courseSelectionManagement.php" method = "POST">
 					<?php
 						include ("DataAccessLayer/startDatabase.php");
 						$res = mysql_query("SELECT * FROM `timetable` WHERE `referenceID` = '1' AND `timetableID` = '4'");
@@ -49,7 +49,7 @@
 							}
 							echo "<br>".$arg['courseID'];
 						?>
-			            <a href = "<?php echo "BusinessAccessLayer/deleteCourse.php? courseid=".$arg['courseID']; ?>" id = "del"> <img src = "images/delete.png" id = "delimg"> </a>
+			            <a href = "<?php echo "BusinessAccessLayer/courseSelectionManagement.php?courseid=".$arg['courseID']; ?>" name= "deleteCourseButton" id="deleteCourseButton"> <img src = "images/delete.png" name = "delimg" id ="delimg"> </a>
 						<div class="item">
 								<label><input type="checkbox" name="courseindex[]" value="<?php echo $arg['courseID']."-".$arg['classID']; ?>" checked><?php echo $arg['classID']. " "; ?></input></label>
 						</div>
@@ -58,7 +58,7 @@
 							$arg = mysql_fetch_array($res);
 							}
 						?>  
-						<button type="submit" class="btn btn-default" >Re-calculate timetable</button>
+						<button type="submit" name="editIndexSubmitBtn" class="btn btn-default" >Re-calculate timetable</button>
 					</form>
 				</div>
 			<!-- The content of tab 2 (view timetable)-->
