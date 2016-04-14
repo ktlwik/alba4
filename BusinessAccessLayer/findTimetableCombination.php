@@ -135,7 +135,7 @@
    function check ($dayI, $dayJ, $startTimeI, $startTimeJ, $endTimeI, $endTimeJ, $remarksI, $remarksJ) {
      $clash = cmp ($remarksI, $remarksJ);
      if ($dayI != $dayJ) return 0;
-     $a = (($endTimeI < $startTimeJ && $startTimeJ < $startTimeI) || ($endTimeJ < $startTimeI && $startTimeI < $startTimeJ)); 
+     $a = (($endTimeI <= $startTimeJ && $startTimeJ >= $startTimeI) || ($endTimeJ <= $startTimeI && $startTimeI >= $startTimeJ)); 
      if ($a || (!$a && $clash == 1)) return 0;
      return 1; // checks if 2 courses clash or not
    }

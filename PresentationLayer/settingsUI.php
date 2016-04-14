@@ -1,7 +1,7 @@
-<!-- The content of tab 4 (settings)-->
+				<!-- The content of tab 4 (settings)-->
 				<div class="tab-pane fade" id="settingstab">
 					<p id="settings-header-text">Please tick the slot that you want it to be free time!</p>
-					<form name="settingsform" action="BusinessAccessLayer/preferenceManager.php" method="POST">
+					<form name="settingsform" action="BusinessAccessLayer/updateSettings.php" method="POST">
 						<table class="table">
 							<tr>
 							<?php 	
@@ -34,4 +34,4 @@
 						</table>
 						<button type="submit" name="editTimePreferenceSubmitBtn" class="btn btn-default" >Save</button>
 					</form>
-				</div>			
+				</div>	
