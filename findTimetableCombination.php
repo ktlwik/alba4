@@ -5,9 +5,10 @@
         $b = $tmp;
     }
 
-    function getWeek ($word) {
-     $result = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+   function getWeek ($word) {
+     $result = array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
       if ($word[0] != 'W') return $result;
+     $result = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         $word = substr($word, 2);
      $pieces = explode(",", $word);
      for ($i = 0; $i < count ($pieces); ++$i) {
@@ -16,6 +17,7 @@
        if (count ($spie) == 1) $result[(int)$spie[0]] = 1;
        else for ($j = (int)$spie[0]; $j <= (int) $spie[1]; ++$j) $result[$j] = 1;
      }
+
       return $result;
    }
 
