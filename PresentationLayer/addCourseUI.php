@@ -11,8 +11,8 @@
 		<?php
 			
 			$sqlstatement = "SELECT * FROM `timetable` WHERE `referenceID` = '1' AND `timetableID` = '4'";
-			$result = $datafactory->execute($sqlstatement);
-			$arg = $datafactory->fetch($result);
+			$result = $dataobject->execute($sqlstatement);
+			$arg = $dataobject->fetch($result);
 			
 			$prev = "";
 			while(!empty($arg['courseID'])) {
@@ -21,7 +21,7 @@
 					<label><input type="checkbox" name="courseindex[]" value="<?php echo $arg['courseID']."-".$arg['classID']; ?>" checked><?php echo $arg['classID']. " "; ?></input></label>
 				</div>
 				<?php
-					$arg = $datafactory->fetch($result); continue;
+					$arg = $dataobject->fetch($result); continue;
 				}
 				echo "<br>".$arg['courseID'];
 				?>
@@ -31,7 +31,7 @@
 				</div>
 				<?php
 					$prev = $arg['courseID'];
-					$arg = $arg = $datafactory->fetch($result);
+					$arg = $arg = $dataobject->fetch($result);
 				}
 		?>  
 			<button type="submit" name="editIndexSubmitBtn" class="btn btn-default" >Re-calculate timetable</button>

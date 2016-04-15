@@ -1,9 +1,10 @@
 <?php
 
-	include("DataAccessLayer/PDOFactory.php");
+	include("DataAccessLayer/DataObjectFactory.php");
 	
-	$datafactory = new PDOFactory();
-	$datafactory->create();
+	$datafactory = new DataObjectFactory();
+	$dataobject = $datafactory->getDataObject();
+	$dataobject->create();
 
 	include("PresentationLayer/templates/header.html");
 	

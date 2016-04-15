@@ -5,14 +5,14 @@
 	
 	$sqlstatement = "SELECT * FROM `timetable` WHERE `referenceID` = '$referenceID' 
                                             AND `timetableID` = '$timetableID' AND `flag` = '1'";
-	$result = $datafactory->execute($sqlstatement);
-	$arg = $datafactory->fetch($result);
+	$result = $dataobject->execute($sqlstatement);
+	$arg = $dataobject->fetch($result);
 	
 	$n = 0;
 	while(!empty($arg['courseID'])) {
 		$CourseID[++$n] = $arg['courseID'];
 		$ClassID[$n] = $arg['classID'];  
-		$arg = $datafactory->fetch($result);	
+		$arg = $dataobject->fetch($result);	
 	}
 	$courses = array();
 	for ($i = 1; $i <= $n; ++$i) {
@@ -20,8 +20,8 @@
 		$courseID = $CourseID[$i];
 		$courses[$i] = $courseID;
 		$sqlstatement = "SELECT * FROM `classes` WHERE `id` = '$classID' AND `courseID` = '$courseID'";
-		$result = $datafactory->execute($sqlstatement);
-		$arg = $datafactory->fetch($result);
+		$result = $dataobject->execute($sqlstatement);
+		$arg = $dataobject->fetch($result);
 		
 		
 		$startTime[$i] = array();
@@ -39,7 +39,7 @@
 			array_push($cgroup[$i], $arg['cgroup']);
 			array_push($ctype[$i], $arg['type']);
 			array_push($remarks[$i], $arg['remark']);
-			$arg = $datafactory->fetch($result);
+			$arg = $dataobject->fetch($result);
 		}
 	}
 	// sorting 
@@ -108,20 +108,21 @@
      
    function is_collapse($i) {
       global $day, $startTime, $endTime;
-		$datafactory = new PDOFactory();
-		$datafactory->create();
+		$datafactory = new DataObjectFactory();
+		$dataobject = $datafactory->getDataObject();
+		$dataobject->create();
 		for ($ind = 0; $ind < count ($day[$i]); ++$ind) {
 			$Day = $day[$i][$ind];
 		
 	
 			$sqlstatement = "SELECT * FROM `settings` WHERE `day` = '$Day'";
-			$result = $datafactory->execute($sqlstatement);
-			$arg = $datafactory->fetch($result);
+			$result = $dataobject->execute($sqlstatement);
+			$arg = $dataobject->fetch($result);
 		
         while (!empty($arg['day'])) {
           $time = $arg['time'];
           if ($startTime[$i][$ind] <= $time && $endTime[$i][$ind] > $time) return 1;
-		  $arg = $datafactory->fetch($result);
+		  $arg = $dataobject->fetch($result);
         }
       }
       return 0; // Need to check whether my course clash with the selected times
